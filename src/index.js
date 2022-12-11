@@ -3,11 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './styles/global.css';
 import CountDown from './CountDown';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import store from './features/storeRedux/index'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+
   <React.StrictMode>
-    <CountDown />
+    <Provider store={store} >
+      <CountDown />
+    </Provider>
   </React.StrictMode>
 );
 

@@ -4,19 +4,24 @@ import TopImage from './assets/images/top-image.svg'
 import BottomImage from './assets/images/bottom-image.svg';
 import Rocket from './assets/images/rocket.svg';
 import Count from './components/Count';
-import { configureStore } from '@reduxjs/toolkit'
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import countDownReducer from './features/countdown/countdownSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { realTime } from './features/countdown/countdownSlice';
+import moment from 'moment';
+moment().format();
 
-const preloadedState = window.__PRELOADED_STATE__
-const store = configureStore({
-  reducer: { countdown: countDownReducer }
-})
 
 export default function CountDown() {
-  const countdownseconds = useSelector(state => state)
-  console.log(countdownseconds);
 
+
+  const dispatch = useDispatch();
+  const nextRocketLaunchDate = moment('2023-01-08T16:30:00.000Z')
+  setInterval(() => {
+    let nowDate = moment()
+    let countDown = nextRocketLaunchDate.diff(nowDate)
+
+    dispatch(realTime(countDown))
+  }, 1000);
+  const time = useSelector(state => state.countdown)
   return (
     <div >
 
@@ -24,15 +29,22 @@ export default function CountDown() {
         <div className='flex flex-col font-Poppins justify-center items-center'>
           <h1 className='text-[#6C63FF] mb-5 text-4xl font-bold tracking-widest	'>READY TO LAUNCH IN...</h1>
           <div className='flex gap-4 text-center  font-light text-sm text-[#C8C8C8]'>
-            <Provider store={store} serverState={preloadedState}>
-              <Count countname={"Dias"} number={"00"}></Count>
-              <Count countname={""} number={":"}></Count>
-              <Count countname={"Horas"} number={"00"}></Count>
-              <Count countname={""} number={":"}></Count>
-              <Count countname={"Minutos"} number={"00"}></Count>
-              <Count countname={""} number={":"}></Count>
-              <Count countname={"Segundos"} number={"00"}></Count>
-            </Provider>
+
+            <Count countname={"Dias"}
+              number={time.date < 10 ? `0${time.date}` : time.date}></Count>
+            <Count countname={""}
+              number={":"}></Count>
+            <Count countname={"Horas"}
+              number={time.hours < 10 ? `0${time.hours}` : time.hours}></Count>
+            <Count countname={""}
+              number={":"}></Count>
+            <Count countname={"Minutos"}
+              number={time.minutes < 10 ? `0${time.minutes}` : time.minutes}></Count>
+            <Count countname={""}
+              number={":"}></Count>
+            <Count countname={"Segundos"}
+              number={time.seconds < 10 ? `0${time.seconds}` : time.seconds}></Count>
+
           </div>
           <div className='flex flex-col justify-center items-center w-full mt-11'>
             <p className='text-[#9C9AB6] text-sm'>Inscreva-se para saber mais sobre o lancamento</p>
