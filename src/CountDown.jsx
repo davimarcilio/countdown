@@ -1,27 +1,42 @@
 
 import './styles/CountDown.css';
-import TopImage from './assets/images/top-image.svg'
+import TopImage from './assets/images/top-image.svg';
 import BottomImage from './assets/images/bottom-image.svg';
 import Rocket from './assets/images/rocket.svg';
 import Count from './components/Count';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { realTime } from './features/countdown/countdownSlice';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
 moment().format();
 
 
 export default function CountDown() {
 
-
+  var nextRocketLaunchDateVar;
+  const [launchState, setlaunchState] = useState(false)
   const dispatch = useDispatch();
-  const nextRocketLaunchDate = moment('2023-01-08T16:30:00.000Z')
-  setInterval(() => {
-    let nowDate = moment()
-    let countDown = nextRocketLaunchDate.diff(nowDate)
+  async function nextRocketLaunchDate() {
+    const response = await axios.get('https://fdo.rocketlaunch.live/json/launches/next/1');
+    const data = response.data;
+    const nextRocketLaunchDate = moment(data.result[0].sort_date * 1000);
+    return nextRocketLaunchDate;
+  };
+  useEffect(() => {
+    nextRocketLaunchDate().then(data => nextRocketLaunchDateVar = data)
+    setInterval(() => {
+      let countDown = nextRocketLaunchDateVar.diff(moment());
+      if (countDown < 0) {
+        setlaunchState(true)
+      }
+      dispatch(realTime(countDown));
+    }, 1000);
+  }, [launchState]);
 
-    dispatch(realTime(countDown))
-  }, 1000);
-  const time = useSelector(state => state.countdown)
+
+  const time = useSelector(state => state.countdown);
+
   return (
     <div >
 
