@@ -56,7 +56,7 @@ export default function CountDown() {
             <Count countname={""}
               number={":"}></Count>
             <Count countname={"Horas"}
-              number={time.hours < 10 ? ` 0${time.hours} ` : time.hours}></Count>
+              number={time.hours < 10 ? `0${time.hours}` : time.hours}></Count>
             <Count countname={""}
               number={":"}></Count>
             <Count countname={"Minutos"}
