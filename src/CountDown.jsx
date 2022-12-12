@@ -9,13 +9,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { realTime } from './features/countdown/countdownSlice';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import rocketLoading from './assets/images/rocketLoading.gif'
 moment().format();
 
 
 export default function CountDown() {
 
-  var nextRocketLaunchDateVar;
-  const [launchState, setlaunchState] = useState(false)
+
+  const [launchState, setLaunchState] = useState(false)
+  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch();
   async function nextRocketLaunchDate() {
     const response = await axios.get('https://fdo.rocketlaunch.live/json/launches/next/1');
@@ -24,11 +26,15 @@ export default function CountDown() {
     return nextRocketLaunchDate;
   };
   useEffect(() => {
+    var nextRocketLaunchDateVar;
     nextRocketLaunchDate().then(data => nextRocketLaunchDateVar = data)
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     setInterval(() => {
       let countDown = nextRocketLaunchDateVar.diff(moment());
       if (countDown < 0) {
-        setlaunchState(true)
+        setLaunchState(true)
       }
       dispatch(realTime(countDown));
     }, 1000);
@@ -39,7 +45,7 @@ export default function CountDown() {
 
   return (
     <div >
-
+      <div className={`absolute w-screen h-screen justify-center items-center flex bg-white ${!loading ? 'hidden' : ''}`}><img className='w-1/3' src={rocketLoading} alt="rocket" /></div>
       <div className='h-screen flex flex-row justify-evenly items-center'>
         <div className='flex flex-col font-Poppins justify-center items-center'>
           <h1 className='text-[#6C63FF] mb-5 text-4xl font-bold tracking-widest	'>READY TO LAUNCH IN...</h1>
@@ -62,7 +68,7 @@ export default function CountDown() {
 
           </div>
           <div className='flex flex-col justify-center items-center w-full mt-11'>
-            <p className='text-[#9C9AB6] text-sm'>Inscreva-se para saber mais sobre o lancamento</p>
+            <p className='text-[#9C9AB6] text-sm'>Inscreva-se para saber mais sobre o lançamento</p>
             <button className='mt-8 px-8 py-3 bg-[#6C63FF] rounded-xl text-white text-base font-normal'>Inscreva-se</button>
           </div>
         </div>
