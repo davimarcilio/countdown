@@ -3,6 +3,7 @@ import './styles/CountDown.css';
 import TopImage from './assets/images/top-image.svg';
 import BottomImage from './assets/images/bottom-image.svg';
 import Rocket from './assets/images/rocket.svg';
+import Close from './assets/images/x-circle-fill.svg'
 import Count from './components/Count';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,23 +19,41 @@ const mailchimpClient = require("@mailchimp/mailchimp_transactional")(
 
 export default function CountDown() {
   const [email, setEmail] = useState("")
+  const [modal, setModal] = useState(false)
+  const [modalEmail, setModalEmail] = useState(false);
+  const [modalEmailVerify, setModalEmailVerify] = useState(false);
+  function hideModal(e) {
+    if (e.target.id === "modal") {
+      setModal(false);
+    }
+  }
   async function sendEmailWithRocketInfos(e) {
     e.preventDefault();
+
     const run = async () => {
       const responseRocket = await axios.get('https://fdo.rocketlaunch.live/json/launches/next/1');
-      const data = response.data;
+      const dataRocket = responseRocket.data;
       const response = await mailchimpClient.messages.send({
         message: {
-          text: data.result[0].launch_description,
-          subject: `Missão ${data.result[0].name}`,
+          text: dataRocket.result[0].launch_description,
+          subject: `Missão ${dataRocket.result[0].name}`,
           from_email: 'davimarcilio.js@gmail.com',
           from_name: 'Rocket Launcher Web Site',
-          to: email,
+          to: [{
+            email: email
+          }],
+
+
 
         }
       });
       console.log(response);
-      console.log(response);
+      setModalEmail(true);
+      if (response[0].status === 'rejected' || response[0].status === 'invalid') {
+        setModalEmailVerify(false);
+      } else {
+        setModalEmailVerify(true);
+      }
     };
 
     run();
@@ -50,7 +69,7 @@ export default function CountDown() {
 
   const [launchState, setLaunchState] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [modal, setModal] = useState(false)
+
   const dispatch = useDispatch();
   async function nextRocketLaunchDate() {
     const response = await axios.get('https://fdo.rocketlaunch.live/json/launches/next/1');
@@ -78,7 +97,11 @@ export default function CountDown() {
 
   return (
     <div >
-      <div className={`${modal ? '' : 'hidden'} font-Poppins flex-col gap-7 bg-white absolute w-screen h-screen justify-center items-center flex`}>
+      <div className={`${modalEmail ? '' : 'hidden'} absolute w-screen flex justify-center items-center my-2 z-20`} >
+        <h3 className={`font-bold font-Poppins ${modalEmailVerify ? 'bg-green-400' : 'bg-red-400'}  p-10 max-w-md rounded-xl`}>{modalEmailVerify ? 'Voce recebeu o email contendo as informacoes do lancamento' : 'Não foi possivel enviar o email para voce'}</h3>
+      </div>
+      <div id='modal' onClick={hideModal} className={`${modal ? '' : 'hidden'} font-Poppins flex-col gap-7 bg-white absolute w-screen h-screen justify-center items-center flex`}>
+        <img onClick={() => setModal(false)} className='absolute top-0 right-0 w-20 m-6 cursor-pointer' src={Close} alt="close" />
         <h1 className='text-2xl font-bold '>Inscreva-se para receber atualizacoes sobre o proximo foguete a ser lancado.</h1>
         <form className='flex flex-row gap-20 max-w-lg w-full'>
           <input onChange={(e) => setEmail(e.target.value)} className='bg-white shadow-lg transition-all text-black placeholder:text-gray-400 py-2 px-6 w-full ring-1 focus:outline-none focus:ring-2  empty:ring-purple-300 invalid:ring-red-300 valid:ring-green-300' type="email" placeholder='EMAIL:' required />
