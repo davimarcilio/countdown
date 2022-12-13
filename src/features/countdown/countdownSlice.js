@@ -6,17 +6,33 @@ moment().format();
 export const counterSlice = createSlice({
     name: 'countdown',
     initialState: {
-        value: 231312312
+        value: {
+            years: 0,
+            months: 0,
+            date: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            milliseconds: 0,
+        },
+        loading: true,
+        modal: false
     },
     reducers: {
         realTime: (state, { payload }) => {
-            return moment(payload).toObject()
+            state.value = moment(payload).utc().toObject()
+        },
+        loadingState: (state, { payload }) => {
+            state.loading = payload
+        },
+        modalState: (state, { payload }) => {
+            state.modal = payload
         },
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { realTime } = counterSlice.actions
+export const { realTime, loadingState, modalState } = counterSlice.actions
 
 export default counterSlice.reducer
 
