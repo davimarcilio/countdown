@@ -48,6 +48,10 @@ export default function CountDown() {
         }
       });
       console.log(response);
+      setModal(false)
+      setTimeout(() => {
+        setModalEmail(false)
+      }, 6000)
       setModalEmail(true);
       if (response[0].status === 'rejected' || response[0].status === 'invalid') {
         setModalEmailVerify(false);
