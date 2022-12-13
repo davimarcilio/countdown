@@ -2,6 +2,7 @@
   "name": "countdown",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://davimarcilio.github.io/countdown",
   "dependencies": {
     "@mailchimp/mailchimp_transactional": "^1.0.50",
     "@reduxjs/toolkit": "^1.9.1",
@@ -18,6 +19,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -43,6 +46,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
+    "gh-pages": "^4.0.0",
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.4"
   }
