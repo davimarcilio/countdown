@@ -18,7 +18,7 @@ export default function Counter() {
         async function nextRocketLaunchDate() {
             const response = await axios.get('https://fdo.rocketlaunch.live/json/launches/next/1');
             const data = response.data;
-            const nextRocketLaunchDate = moment(data.result[0].t0);
+            const nextRocketLaunchDate = moment(data.result[0].sort_date * 1000);
             return nextRocketLaunchDate;
         };
 
