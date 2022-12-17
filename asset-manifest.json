@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/countdown/static/css/main.1f5be31e.css",
-    "main.js": "/countdown/static/js/main.91ab5669.js",
+    "main.css": "/countdown/static/css/main.ad4e21e7.css",
+    "main.js": "/countdown/static/js/main.de07da64.js",
     "static/js/787.482db2ac.chunk.js": "/countdown/static/js/787.482db2ac.chunk.js",
     "static/media/rocketLoading.gif": "/countdown/static/media/rocketLoading.5957cd719114eca94da5.gif",
     "static/media/rocket.svg": "/countdown/static/media/rocket.d2c9bd294d939006faff31f70a9a6940.svg",
     "static/media/top-image.svg": "/countdown/static/media/top-image.3179c546bd043d48e9e318c4efda543f.svg",
-    "index.html": "/countdown/index.html",
     "static/media/bottom-image.svg": "/countdown/static/media/bottom-image.2f57f8064eca8f022838a84f811535c6.svg",
-    "static/media/x-circle-fill.svg": "/countdown/static/media/x-circle-fill.d70fbd709c298f8e8c1fa46b1cac5ab8.svg",
-    "main.1f5be31e.css.map": "/countdown/static/css/main.1f5be31e.css.map",
-    "main.91ab5669.js.map": "/countdown/static/js/main.91ab5669.js.map",
+    "index.html": "/countdown/index.html",
+    "static/media/x-circle-fill.svg": "/countdown/static/media/x-circle-fill.3e9d6735362af9071e8e80c0af07e6c6.svg",
+    "main.ad4e21e7.css.map": "/countdown/static/css/main.ad4e21e7.css.map",
+    "main.de07da64.js.map": "/countdown/static/js/main.de07da64.js.map",
     "787.482db2ac.chunk.js.map": "/countdown/static/js/787.482db2ac.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1f5be31e.css",
-    "static/js/main.91ab5669.js"
+    "static/css/main.ad4e21e7.css",
+    "static/js/main.de07da64.js"
   ]
 }
